@@ -10,13 +10,15 @@ else
     exit 1
 fi
 
-# Verificar si dialog
+# Verificar si 'dialog' está instalado
 if ! command -v dialog >/dev/null 2>&1; then
     echo "'dialog' no está instalado."
     if [ "$OS" = "Ubuntu" ]; then
+        echo "Puedes instalarlo con:"
         echo "sudo apt update && sudo apt install dialog"
     elif [ "$OS" = "FreeBSD" ]; then
-        echo "pkg install dialog4ports"
+        echo "Puedes instalarlo con:"
+        echo "sudo pkg install dialog"
     fi
     exit 1
 fi
@@ -24,9 +26,9 @@ fi
 # Bucle infinito: cada minuto, la barra se reinicia
 barra=""
 while true; do
-    for ((i=1; i<=60; i++)); do
+    for i in $(seq 1 60); do
         hora_actual=$(date +"%H:%M:%S")
-        barra+="|"
+        barra="${barra}|"
         mensaje="Segundos:\n$barra\n\nHora actual: $hora_actual"
         dialog --title "Reloj de Segundos" --infobox "$mensaje" 10 80
         sleep 1
