@@ -10,7 +10,7 @@ else
     exit 1
 fi
 
-# Verificar dialog
+# Verificar que 'dialog' esté instalado
 if ! command -v dialog >/dev/null 2>&1; then
     echo "'dialog' no está instalado. Por favor instálalo primero:"
     if [ "$OS" = "Ubuntu" ]; then
@@ -38,11 +38,11 @@ mostrar_reloj() {
             mensaje="Hora actual: $(printf "%02d" $hora):$(printf "%02d" $minuto):$(printf "%02d" $segundo)"
 
             echo "$porcentaje_segundo"
-            echo "# $mensaje"
+            echo "$mensaje"
 
             sleep 1
         done
-    } | dialog --title "Reloj Barra" --gauge "Iniciando..." 10 60 0
+    } | dialog --title "Reloj en Tiempo Real" --gauge "" 10 60 0
 }
 
 mostrar_reloj
