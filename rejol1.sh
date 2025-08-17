@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Detectar el sistema operativo
 if [ -f /etc/lsb-release ] || [ -f /etc/debian_version ]; then
@@ -23,25 +23,26 @@ fi
 
 # Función para mostrar el reloj visual
 mostrar_reloj() {
-    while true; do
-        hora=$(date +%H)
-        minuto=$(date +%M)
-        segundo=$(date +%S)
+    {
+        while true; do
+            hora=$(date +%H)
+            minuto=$(date +%M)
+            segundo=$(date +%S)
 
-        hora=$((10#$hora))
-        minuto=$((10#$minuto))
-        segundo=$((10#$segundo))
+            hora=$((10#$hora))
+            minuto=$((10#$minuto))
+            segundo=$((10#$segundo))
 
-        # Calcular porcentaje de segundos
-        porcentaje_segundo=$((segundo * 100 / 59))
+            porcentaje_segundo=$((segundo * 100 / 59))
 
-        #dialogo de hora
-        dialog --title "Reloj Barra" \
-               --gauge "Hora actual: $(printf "%02d" $hora):$(printf "%02d" $minuto):$(printf "%02d" $segundo)" \
-               10 60 "$porcentaje_segundo"
+            mensaje="Hora actual: $(printf "%02d" $hora):$(printf "%02d" $minuto):$(printf "%02d" $segundo)"
 
-        sleep 1
-    done
+            echo "$porcentaje_segundo"
+            echo "# $mensaje"
+
+            sleep 1
+        done
+    } | dialog --title "Reloj Barra" --gauge "Iniciando..." 10 60 0
 }
 
 mostrar_reloj
