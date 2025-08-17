@@ -10,9 +10,9 @@ else
     exit 1
 fi
 
-# Verificar si 'dialog' está instalado
+# Verificar si 'dialog' esta instalado
 if ! command -v dialog >/dev/null 2>&1; then
-    echo "'dialog' no está instalado. Por favor instálalo primero:"
+    echo "'dialog' no esta instalado. Por favor instalalo primero:"
     if [ "$OS" = "Ubuntu" ]; then
         echo "sudo apt update && sudo apt install dialog"
     elif [ "$OS" = "FreeBSD" ]; then
@@ -28,19 +28,24 @@ mostrar_reloj() {
         minuto=$(date +%M)
         segundo=$(date +%S)
 
-        # Crear contenido de la caja con 3 barras
-        (
+        # Calculo porcentaje para barras
+        porcentaje_hora=$((hora * 100 / 23))
+        porcentaje_minuto=$((minuto * 100 / 59))
+        porcentaje_segundo=$((segundo * 100 / 59))
+
+        # Mostrar ventana con tres barras de progreso y hora digital
+        {
             echo "XXX"
-            echo "$((hora * 100 / 23))"
-            echo "Hora actual: $hora"
+            echo "$porcentaje_hora"
+            echo "Horas: $hora / 23"
             echo "XXX"
-            echo "$((minuto * 100 / 59))"
-            echo "Minutos: $minuto"
+            echo "$porcentaje_minuto"
+            echo "Minutos: $minuto / 59"
             echo "XXX"
-            echo "$((segundo * 100 / 59))"
-            echo "Segundos: $segundo"
+            echo "$porcentaje_segundo"
+            echo "Segundos: $segundo / 59"
             echo "XXX"
-        ) | dialog --title "Reloj Visual" --gauge "Simulando reloj..." 15 60 0
+        } | dialog --title "Reloj Visual" --gauge "Hora actual: $hora:$minuto:$segundo" 15 60 0
 
         sleep 1
     done

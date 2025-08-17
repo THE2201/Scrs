@@ -12,7 +12,7 @@ fi
 
 # Verificar si dialog y dd estan instalados
 if ! command -v dialog >/dev/null 2>&1; then
-    echo "'dialog' no está instalado."
+    echo "'dialog' no esta instalado."
     if [ "$OS" = "Ubuntu" ]; then
         echo "sudo apt update && sudo apt install dialog"
     elif [ "$OS" = "FreeBSD" ]; then
@@ -22,7 +22,7 @@ if ! command -v dialog >/dev/null 2>&1; then
 fi
 
 if ! command -v dd >/dev/null 2>&1; then
-    echo "'dd' no está instalado."
+    echo "'dd' no esta instalado."
     exit 1
 fi
 
@@ -86,8 +86,9 @@ medir_lectura
 rm -f "$TESTFILE"
 
 # Mostrar resultados
-dialog --title "Resultados de info de Disco" --msgbox \
-"RESULTADOS
+dialog --title "Resultados de info de Disco" --msgbox "RESULTADOS
 
 Velocidad de escritura: ${WRITE_SPEED} MB/s
-Velocidad de le
+Velocidad de lectura:   ${READ_SPEED} MB/s
+Archivo temporal de ${TOTAL_MB} MB usado en /tmp.
+" 12 50
