@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Detectar sistema operativo
 if [ -f /etc/lsb-release ] || [ -f /etc/debian_version ]; then
