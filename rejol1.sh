@@ -10,9 +10,9 @@ else
     exit 1
 fi
 
-# Verificar si 'dialog' esta instalado
+# Verificar dialog
 if ! command -v dialog >/dev/null 2>&1; then
-    echo "'dialog' no esta instalado. Por favor instalalo primero:"
+    echo "'dialog' no está instalado. Por favor instálalo primero:"
     if [ "$OS" = "Ubuntu" ]; then
         echo "sudo apt update && sudo apt install dialog"
     elif [ "$OS" = "FreeBSD" ]; then
@@ -21,31 +21,24 @@ if ! command -v dialog >/dev/null 2>&1; then
     exit 1
 fi
 
-# Funcion para dibujar el reloj visual
+# Función para mostrar el reloj visual
 mostrar_reloj() {
     while true; do
         hora=$(date +%H)
         minuto=$(date +%M)
         segundo=$(date +%S)
 
-        # Calculo porcentaje para barras
-        porcentaje_hora=$((hora * 100 / 23))
-        porcentaje_minuto=$((minuto * 100 / 59))
+        hora=$((10#$hora))
+        minuto=$((10#$minuto))
+        segundo=$((10#$segundo))
+
+        # Calcular porcentaje de segundos
         porcentaje_segundo=$((segundo * 100 / 59))
 
-        # Mostrar ventana con tres barras de progreso y hora digital
-        {
-            echo "XXX"
-            echo "$porcentaje_hora"
-            echo "Horas: $hora / 23"
-            echo "XXX"
-            echo "$porcentaje_minuto"
-            echo "Minutos: $minuto / 59"
-            echo "XXX"
-            echo "$porcentaje_segundo"
-            echo "Segundos: $segundo / 59"
-            echo "XXX"
-        } | dialog --title "Reloj Visual" --gauge "Hora actual: $hora:$minuto:$segundo" 15 60 0
+        #dialogo de hora
+        dialog --title "Reloj Barra" \
+               --gauge "Hora actual: $(printf "%02d" $hora):$(printf "%02d" $minuto):$(printf "%02d" $segundo)" \
+               10 60 "$porcentaje_segundo"
 
         sleep 1
     done
