@@ -1,12 +1,27 @@
 #!/bin/bash
 
-# Verificar que 'dialog' esté instalado
-if ! command -v dialog >/dev/null 2>&1; then
-    echo "'dialog' no está instalado. Por favor instalalo primero."
+# Detectar sistema operativo
+if [ -f /etc/lsb-release ] || [ -f /etc/debian_version ]; then
+    OS="Ubuntu"
+elif [ "$(uname)" = "FreeBSD" ]; then
+    OS="FreeBSD"
+else
+    echo "Sistema operativo no compatible."
     exit 1
 fi
 
+# Verificar si dialog
+if ! command -v dialog >/dev/null 2>&1; then
+    echo "'dialog' no está instalado."
+    if [ "$OS" = "Ubuntu" ]; then
+        echo "sudo apt update && sudo apt install dialog"
+    elif [ "$OS" = "FreeBSD" ]; then
+        echo "pkg install dialog4ports"
+    fi
+    exit 1
+fi
 
+# Bucle infinito: cada minuto, la barra se reinicia
 barra=""
 while true; do
     for ((i=1; i<=60; i++)); do
